@@ -5,11 +5,14 @@ import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 全局异常捕获
@@ -61,8 +64,9 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Object handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletRequest request) {
-        log.error("自定义异常{}", e.getMessage());
-        String message = e.getMessage();
+        List<ObjectError> errors = e.getBindingResult().getAllErrors();
+        String message = errors.stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(","));
+        log.error("param illegal", message);
         return Result.fail(message);
     }
 
