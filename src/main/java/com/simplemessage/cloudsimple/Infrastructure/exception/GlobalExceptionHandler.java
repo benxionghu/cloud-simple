@@ -35,6 +35,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     public Object handleRuntimeException(RuntimeException e, HttpServletRequest request) {
         String requestUri = request.getRequestURI();
+        System.out.println(1);
         log.error("请求地址'{}',运行时发生未知异常.", requestUri, e.getMessage());
         return Result.fail(e.getMessage());
     }
