@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 
+import java.util.Date;
+
 /**
  * 创建
  * @Author: benxiong.hu
@@ -34,5 +36,5 @@ public class CreationEntity {
     @CreatedDate
     @TableField(fill = FieldFill.INSERT)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private String createdTime;
+    private Date createdTime;
 }
