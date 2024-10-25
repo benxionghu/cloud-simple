@@ -2,6 +2,7 @@ package com.simplemessage.cloudsimple.Infrastructure.db.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -18,12 +19,20 @@ import java.util.Date;
  */
 @Data
 public class ModificationEntity extends CreationEntity {
+
+    /**
+     * 是否删除
+     */
+    @TableLogic
+    @TableField("is_deleted")
+    private Boolean isDeleted;
+
     /**
      * 修改者Id
      */
     @LastModifiedBy
     @TableField(fill = FieldFill.UPDATE)
-    private String lastModifiedId;
+    private Long lastModifiedId;
 
     /**
      * 修改者姓名

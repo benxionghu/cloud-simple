@@ -22,7 +22,7 @@ public class CreationEntity {
      * 创建者Id
      */
     @TableField(fill = FieldFill.INSERT)
-    private String createdId;
+    private Long createdId;
 
     /**
      * 创建者名称

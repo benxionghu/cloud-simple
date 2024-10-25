@@ -2,7 +2,6 @@ package com.simplemessage.cloudsimple.Infrastructure.config.mybatisplus;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.simplemessage.cloudsimple.Infrastructure.db.entity.CreationEntity;
-import com.simplemessage.cloudsimple.Infrastructure.db.entity.DeletionEntity;
 import com.simplemessage.cloudsimple.Infrastructure.db.entity.ModificationEntity;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.stereotype.Component;
@@ -33,7 +32,7 @@ public class MybatisMetaObjectHandler implements MetaObjectHandler {
         if (originalObject instanceof CreationEntity) {
             this.strictInsertFill(metaObject, "createdTime", () -> new Date(), Date.class);
             this.strictInsertFill(metaObject, "createdName", () -> "systemInsert", String.class);
-            this.strictInsertFill(metaObject, "createdId", () -> "systemInsert", String.class);
+            this.strictInsertFill(metaObject, "createdId", () -> 1L, Long.class);
         }
         initUpdatedOrDeleted(metaObject, originalObject);
 
@@ -59,15 +58,11 @@ public class MybatisMetaObjectHandler implements MetaObjectHandler {
      */
     private void initUpdatedOrDeleted(MetaObject metaObject, Object originalObject) {
         if (originalObject instanceof ModificationEntity) {
-            this.strictInsertFill(metaObject, "lastModifiedTime", () -> new Date(), Date.class);
-            this.strictInsertFill(metaObject, "lastModifierName", () -> "systemUpdate", String.class);
-            this.strictInsertFill(metaObject, "lastModifierId", () -> "systemUpdate", String.class);
+            this.setFieldValByName("lastModifiedTime", new Date(), metaObject);
+            this.setFieldValByName("lastModifiedName", "systemUpdate", metaObject);
+            this.setFieldValByName("lastModifiedId", 1L, metaObject);
         }
-        if (originalObject instanceof DeletionEntity) {
-            this.strictInsertFill(metaObject, "deletedTime", () -> new Date(), Date.class);
-            this.strictInsertFill(metaObject, "deletedName", () -> "systemDeleted", String.class);
-            this.strictInsertFill(metaObject, "deletedTiId", () -> "systemDeleted", String.class);
-        }
+
     }
 
 }
